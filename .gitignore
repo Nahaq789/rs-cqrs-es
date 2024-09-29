@@ -1,2 +1,5 @@
 .idea
 target
+/tf/variables.tf
+/tf/.terraform
+/tf/.terraform.lock.hcl
