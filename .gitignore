@@ -1,5 +1,8 @@
 .idea
 target
 /tf/variables.tf
-/tf/.terraform
 /tf/.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+.terraform/
+*.tfvars
