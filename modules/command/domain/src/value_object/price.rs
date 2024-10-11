@@ -8,7 +8,7 @@ pub struct Price {
 
 /// 金額エラーおのクラスです
 #[derive(Debug, Clone)]
-struct PriceError;
+pub struct PriceError;
 
 impl Display for PriceError {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
