@@ -22,3 +22,7 @@ tower-http = "0.6.1"
 hyper = "1.4.1"
 chrono = "0.4.38"
 thiserror = "1.0.64"
+
+# test
+axum-test = "16.2.0"
+rstest = "0.23.0"
