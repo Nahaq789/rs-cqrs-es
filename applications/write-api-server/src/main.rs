@@ -72,7 +72,6 @@ async fn main() -> anyhow::Result<()> {
     .expect("Failed to bind to address");
 
   info!("Write server started!!");
-  info!("{}", std::env::var("HOGE")?);
   axum::serve(listener, app)
     .await?;
 
