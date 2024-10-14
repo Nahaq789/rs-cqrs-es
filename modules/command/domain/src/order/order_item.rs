@@ -1,6 +1,8 @@
 use crate::order::order_error::OrderError;
+use crate::value_object::discount::Discount;
 use crate::value_object::price::Price;
 use crate::value_object::quantity::Quantity;
+use rust_decimal::Decimal;
 
 #[derive(Debug, Clone)]
 pub struct OrderItem {
@@ -8,7 +10,7 @@ pub struct OrderItem {
   product_id: i32,
   product_name: String,
   unit_price: Price,
-  discount: Price,
+  discount: Discount,
   quantity: Quantity,
 }
 
@@ -17,7 +19,7 @@ impl OrderItem {
          product_id: i32,
          product_name: &str,
          unit_price: Price,
-         discount: Price,
+         discount: Discount,
          quantity: Quantity) -> Self {
     Self {
       order_item_id,
@@ -41,24 +43,27 @@ impl OrderItem {
       order_item_id,
       product_id,
       product_name,
-      Price::try_from(unit_price)?,
-      Price::try_from(discount)?,
-      Quantity::try_from(quantity)?
+      Price::try_from(Decimal::from(unit_price))?,
+      Discount::try_from(discount)?,
+      Quantity::try_from(quantity)?,
     ))
   }
 
-  /// 数量のチェック
-  /// 数量は1以上でなければならない
+  /// 価格のゲッター
   ///
-  /// # Argument
-  /// * `quantity`: u16
-  fn check_quantity(quantity: i32) -> bool {
-    quantity > 0
-  }
+  /// # return
+  /// * `unit_price`: i32
+  pub fn get_unit_price(&self) -> Decimal { self.unit_price.value() }
 
-  pub fn get_unit_price(&self) -> i32 { self.unit_price.value() }
-
+  /// 数量のゲッター
+  ///
+  /// # return
+  /// * `quantity`: i32
   pub fn get_quantity(&self) -> i32 { self.quantity.value() }
 
-  pub fn get_discount(&self) -> i32 { self.discount.value() }
+  /// 割引のゲッター
+  ///
+  /// # return
+  /// * `discount`: i32
+  pub fn get_discount(&self) -> Decimal { self.discount.value() }
 }
