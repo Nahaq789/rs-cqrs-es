@@ -6,29 +6,29 @@ use uuid::Uuid;
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Deserialize, Serialize)]
 pub struct OrderId {
-    value: Uuid,
+  value: Uuid,
 }
 
 const ORDER_PREFIX: &str = "ORDER";
 
 impl OrderId {
-    pub fn new() -> Self {
-        let value = generate_id();
-        Self { value }
-    }
+  pub fn new() -> Self {
+    let value = generate_id();
+    Self { value }
+  }
 }
 
 impl AggregateId for OrderId {
-    fn type_name(&self) -> String {
-        ORDER_PREFIX.to_string()
-    }
-    fn value(&self) -> String {
-        self.value.to_string()
-    }
+  fn type_name(&self) -> String {
+    ORDER_PREFIX.to_string()
+  }
+  fn value(&self) -> String {
+    self.value.to_string()
+  }
 }
 
 impl Display for OrderId {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}-{}", self.type_name(), self.value())
-    }
+  fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    write!(f, "{}-{}", self.type_name(), self.value())
+  }
 }
