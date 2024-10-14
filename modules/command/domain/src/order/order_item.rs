@@ -15,14 +15,14 @@ pub struct OrderItem {
 impl OrderItem {
   fn new(order_item_id: i32,
          product_id: i32,
-         product_name: String,
+         product_name: &str,
          unit_price: Price,
          discount: Price,
          quantity: Quantity) -> Self {
     Self {
       order_item_id,
       product_id,
-      product_name,
+      product_name: product_name.to_string(),
       unit_price,
       discount,
       quantity,
@@ -32,22 +32,18 @@ impl OrderItem {
   pub fn place_order_item(
     order_item_id: i32,
     product_id: i32,
-    product_name: String,
+    product_name: &str,
     unit_price: i32,
     discount: i32,
-    quantity: u16,
+    quantity: i32,
   ) -> Result<Self, OrderError> {
-    if !Self::check_quantity(quantity) {
-      Err(OrderError::InvalidQuantityError(quantity))?
-    };
-
     Ok(OrderItem::new(
       order_item_id,
       product_id,
       product_name,
       Price::try_from(unit_price)?,
       Price::try_from(discount)?,
-      Quantity::new(quantity),
+      Quantity::try_from(quantity)?
     ))
   }
 
@@ -56,11 +52,13 @@ impl OrderItem {
   ///
   /// # Argument
   /// * `quantity`: u16
-  fn check_quantity(quantity: u16) -> bool {
+  fn check_quantity(quantity: i32) -> bool {
     quantity > 0
   }
 
-  // fn is_discount_valid_for_order_total(unit_price: i32, quantity: u16, discount: i32) -> bool {
-  //   if (unit_price * )
-  // }
+  pub fn get_unit_price(&self) -> i32 { self.unit_price.value() }
+
+  pub fn get_quantity(&self) -> i32 { self.quantity.value() }
+
+  pub fn get_discount(&self) -> i32 { self.discount.value() }
 }
