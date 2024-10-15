@@ -2,6 +2,7 @@
 target
 /tf/variables.tf
 /tf/.terraform.lock.hcl
+/tf/write-api-server
 *.tfstate
 *.tfstate.backup
 .terraform/

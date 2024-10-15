@@ -20,3 +20,10 @@ uuid = { version = "1.10.0", features = ["v4", "serde"] }
 tower = "0.5.1"
 tower-http = "0.6.1"
 hyper = "1.4.1"
+chrono = "0.4.38"
+thiserror = "1.0.64"
+rust_decimal = "1.36.0"
+
+# test
+axum-test = "16.2.0"
+rstest = "0.23.0"
