@@ -73,11 +73,7 @@ impl Order {
     ))
   }
 
-  /// リストにアイテムを追加します
-  // pub fn add_order_item(&mut self, item:OrderItem) {
-  //   self.order_items.push(item)
-  // }
-
+  /// 合計金額を計算します
   pub fn calc_total_price(items: &Vec<OrderItem>) -> Result<Price, OrderError> {
     let price: Decimal = items.iter()
       .try_fold(Decimal::ZERO, |acc, item| -> Result<Decimal, OrderError> {
@@ -118,10 +114,25 @@ mod tests {
     let vec: Vec<OrderItem> = vec![data1.clone(), data2.clone()];
     let result = Order::calc_total_price(&vec);
 
+    let expected_value = {
+      let data1_unit_price = Decimal::from(data1.get_unit_price());
+      let data1_quantity = Decimal::from(data1.get_quantity());
+      let data1_discount = Decimal::from(data1.get_discount());
+      let data1_item_total = data1_unit_price * data1_quantity;
+      let data1_discounted = data1_item_total - (data1_item_total * data1_discount / Decimal::from(100));
+
+      let data2_unit_price = Decimal::from(data2.get_unit_price());
+      let data2_quantity = Decimal::from(data2.get_quantity());
+      let data2_discount = Decimal::from(data2.get_discount());
+      let data2_item_total = data2_unit_price * data2_quantity;
+      let data2_discounted = data2_item_total - (data2_item_total * data2_discount / Decimal::from(100));
+
+      data1_discounted + data2_discounted
+    };
+
     // assert
     assert_eq!(
-      (data1.get_unit_price() * Decimal::from(data1.get_quantity()) - data1.get_discount()) +
-        (data2.get_unit_price() * Decimal::from(data2.get_quantity()) - data2.get_discount()),
+      expected_value,
       result.unwrap().value()
     )
   }
