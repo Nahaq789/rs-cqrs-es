@@ -1,3 +1,4 @@
+use crate::product::product_name::ProductNameError;
 use crate::value_object::discount::DiscountError;
 use crate::value_object::price::PriceError;
 use crate::value_object::quantity::QuantityError;
@@ -15,4 +16,7 @@ pub enum OrderError {
 
   #[error("Discount must be at least 0 {0:?}")]
   InvalidDiscountError(#[from] DiscountError),
+
+  #[error("Invalid Product Name: {0}")]
+  InvalidProductName(#[from] ProductNameError),
 }

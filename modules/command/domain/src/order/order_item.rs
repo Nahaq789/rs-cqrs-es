@@ -1,15 +1,17 @@
 use crate::order::order_error::OrderError;
 use crate::order::order_item_id::OrderItemId;
+use crate::product::product_name::ProductName;
 use crate::value_object::discount::Discount;
 use crate::value_object::price::Price;
 use crate::value_object::quantity::Quantity;
 use rust_decimal::Decimal;
+use std::str::FromStr;
 
 #[derive(Debug, Clone)]
 pub struct OrderItem {
   order_item_id: OrderItemId,
   product_id: i32,
-  product_name: String,
+  product_name: ProductName,
   unit_price: Price,
   discount: Discount,
   quantity: Quantity,
@@ -18,14 +20,14 @@ pub struct OrderItem {
 impl OrderItem {
   fn new(order_item_id: OrderItemId,
          product_id: i32,
-         product_name: &str,
+         product_name: ProductName,
          unit_price: Price,
          discount: Discount,
          quantity: Quantity) -> Self {
     Self {
       order_item_id,
       product_id,
-      product_name: product_name.to_string(),
+      product_name,
       unit_price,
       discount,
       quantity,
@@ -43,7 +45,7 @@ impl OrderItem {
     Ok(OrderItem::new(
       order_item_id,
       product_id,
-      product_name,
+      ProductName::from_str(product_name)?,
       Price::try_from(Decimal::from(unit_price))?,
       Discount::try_from(discount)?,
       Quantity::try_from(quantity)?,
