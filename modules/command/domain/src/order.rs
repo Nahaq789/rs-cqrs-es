@@ -1,6 +1,7 @@
 pub mod order_id;
 mod order_error;
 mod order_item;
+mod order_item_id;
 
 use crate::order::order_error::OrderError;
 use crate::order::order_id::OrderId;
@@ -93,10 +94,11 @@ impl Order {
 #[cfg(test)]
 mod tests {
   use super::*;
+  use crate::order::order_item_id::OrderItemId;
   #[test]
   fn test_order_calc_total_price_success() {
     let data1 = OrderItem::place_order_item(
-      1,
+      OrderItemId::new(),
       1,
       "hogehoge",
       500,
@@ -104,7 +106,7 @@ mod tests {
       2,
     ).unwrap();
     let data2 = OrderItem::place_order_item(
-      2,
+      OrderItemId::new(),
       2,
       "fugafuga",
       100,
@@ -115,15 +117,15 @@ mod tests {
     let result = Order::calc_total_price(&vec);
 
     let expected_value = {
-      let data1_unit_price = Decimal::from(data1.get_unit_price());
+      let data1_unit_price = data1.get_unit_price();
       let data1_quantity = Decimal::from(data1.get_quantity());
-      let data1_discount = Decimal::from(data1.get_discount());
+      let data1_discount = data1.get_discount();
       let data1_item_total = data1_unit_price * data1_quantity;
       let data1_discounted = data1_item_total - (data1_item_total * data1_discount / Decimal::from(100));
 
-      let data2_unit_price = Decimal::from(data2.get_unit_price());
+      let data2_unit_price = data2.get_unit_price();
       let data2_quantity = Decimal::from(data2.get_quantity());
-      let data2_discount = Decimal::from(data2.get_discount());
+      let data2_discount = data2.get_discount();
       let data2_item_total = data2_unit_price * data2_quantity;
       let data2_discounted = data2_item_total - (data2_item_total * data2_discount / Decimal::from(100));
 
@@ -132,7 +134,7 @@ mod tests {
 
     // assert
     assert_eq!(
-      expected_value,
+      &expected_value,
       result.unwrap().value()
     )
   }
@@ -142,7 +144,7 @@ mod tests {
     let order_id = OrderId::new();
     let ordered_at = Utc::now();
     let data1 = OrderItem::place_order_item(
-      1,
+      OrderItemId::new(),
       1,
       "hogehoge",
       500,
@@ -150,7 +152,7 @@ mod tests {
       2,
     ).unwrap();
     let data2 = OrderItem::place_order_item(
-      2,
+      OrderItemId::new(),
       2,
       "fugafuga",
       100,
