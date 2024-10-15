@@ -32,3 +32,9 @@ impl Display for OrderId {
     write!(f, "{}-{}", self.type_name(), self.value())
   }
 }
+
+impl From<Uuid> for OrderId {
+  fn from(value: Uuid) -> Self {
+    Self { value }
+  }
+}
