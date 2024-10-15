@@ -67,7 +67,7 @@ impl Quantity {
   ///
   /// # Return
   ///
-  /// * `u16`
+  /// * `Decimal`
   pub fn value(&self) -> i32 {
     self.quantity
   }
@@ -75,8 +75,8 @@ impl Quantity {
 
 #[cfg(test)]
 mod tests {
-  use rstest::rstest;
   use super::*;
+  use rstest::rstest;
 
   #[rstest]
   #[case(1, 10)]

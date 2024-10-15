@@ -43,5 +43,5 @@ impl Discount {
   }
 
   /// Getter
-  pub fn value(&self) -> Decimal { self.discount }
+  pub fn value(&self) -> &Decimal { &self.discount }
 }

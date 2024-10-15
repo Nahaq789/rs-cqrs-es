@@ -51,7 +51,7 @@ impl Price {
   }
 
   /// Getter
-  pub fn value(&self) -> Decimal { self.price }
+  pub fn value(&self) -> &Decimal { &self.price }
 }
 
 #[cfg(test)]
@@ -122,6 +122,6 @@ mod tests {
 
     // assert
     assert!(result.is_ok());
-    assert_eq!(result.unwrap().value(), Decimal::from(value))
+    assert_eq!(result.unwrap().value(), &Decimal::from(value))
   }
 }
