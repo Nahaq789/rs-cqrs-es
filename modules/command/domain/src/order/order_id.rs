@@ -1,5 +1,4 @@
-use crate::aggregate_id::AggregateId;
-use crate::generate_id;
+use crate::AggregateId;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Display, Formatter};
 use uuid::Uuid;
@@ -13,7 +12,7 @@ const ORDER_PREFIX: &str = "ORDER";
 
 impl OrderId {
   pub fn new() -> Self {
-    let value = generate_id();
+    let value = Self::generate_id();
     Self { value }
   }
 }
@@ -25,6 +24,7 @@ impl AggregateId for OrderId {
   fn value(&self) -> String {
     self.value.to_string()
   }
+  fn generate_id() -> Uuid { Uuid::new_v4() }
 }
 
 impl Display for OrderId {

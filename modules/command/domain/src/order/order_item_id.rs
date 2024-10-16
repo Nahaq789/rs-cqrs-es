@@ -1,5 +1,4 @@
-use crate::aggregate_id::AggregateId;
-use crate::generate_id;
+use crate::AggregateId;
 use std::fmt::{Display, Formatter};
 use uuid::Uuid;
 
@@ -12,7 +11,7 @@ const ORDER_ITEM_PREFIX: &str = "ORDER_ITEM";
 
 impl OrderItemId {
   pub fn new() -> Self {
-    let value = generate_id();
+    let value = Self::generate_id();
     Self { value }
   }
 }
@@ -20,6 +19,7 @@ impl OrderItemId {
 impl AggregateId for OrderItemId {
   fn type_name(&self) -> String { ORDER_ITEM_PREFIX.to_string() }
   fn value(&self) -> String { self.value.to_string() }
+  fn generate_id() -> Uuid { Uuid::new_v4() }
 }
 
 impl Display for OrderItemId {
